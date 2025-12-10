@@ -1,4 +1,6 @@
 /* SysCall Secure Stylesheet */
+/* FIXED VERSION: Enables scrolling on small screens */
+
 :root {
     --bg-app: #0f172a;
     --bg-panel: #1e293b;
@@ -28,8 +30,8 @@ body {
     background-color: var(--bg-app);
     color: var(--text-primary);
     font-family: var(--font-sans);
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-y: auto;  /* FIX: Changed from 'hidden' to 'auto' to allow scrolling */
     line-height: 1.5;
 }
 
@@ -99,11 +101,12 @@ input:focus {
 
 /* Login View */
 #login-view {
-    height: 100%;
+    min-height: 100vh; /* Changed to min-height */
     display: flex;
     align-items: center;
     justify-content: center;
     background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    padding: 1rem; /* Added padding for mobile */
 }
 .login-container {
     background-color: rgba(30, 41, 59, 0.7);
@@ -138,7 +141,11 @@ input:focus {
 }
 
 /* Dashboard Layout */
-#dashboard-view { flex-direction: row; }
+#dashboard-view {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh; /* Ensure full height */
+}
 .sidebar {
     width: 260px;
     background-color: var(--bg-panel);
@@ -146,6 +153,9 @@ input:focus {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
+    position: sticky; /* Keep sidebar visible */
+    top: 0;
+    height: 100vh;
 }
 .sidebar-header {
     display: flex;
@@ -215,7 +225,7 @@ input:focus {
     flex: 1;
     background-color: var(--bg-app);
     padding: 2rem;
-    overflow-y: auto;
+    /* Removed overflow:auto from here so body handles scroll */
 }
 .content-header {
     margin-bottom: 2rem;
@@ -276,13 +286,14 @@ input:focus {
     line-height: 1.6;
 }
 
-/* System Call UI */
+/* System Call UI - FIXED SCROLLING */
 .syscall-layout {
     display: grid;
     grid-template-columns: 250px 1fr;
     gap: 1.5rem;
-    height: calc(100vh - 200px); /* Fixed height to enable scrolling inside */
-    overflow: hidden; /* Prevent container itself from scrolling */
+    height: 600px; /* Set a reasonable fixed height */
+    min-height: 500px;
+    /* Removed overflow hidden to let it breathe */
 }
 
 .syscall-list {
@@ -290,7 +301,7 @@ input:focus {
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
     padding: 1rem;
-    overflow-y: auto; /* Scroll enabled for left panel */
+    overflow-y: auto; /* List scrolls inside */
     max-height: 100%;
 }
 .syscall-list h3 {
@@ -326,8 +337,8 @@ input:focus {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    overflow-y: auto;  /* Scroll enabled for right panel */
-    height: 100%;      /* Take full height of parent */
+    overflow-y: auto;  /* Right panel scrolls inside */
+    height: 100%;
     padding-right: 10px;
 }
 
@@ -336,6 +347,7 @@ input:focus {
     padding: 2rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
+    flex-shrink: 0; /* Prevent form from squishing */
 }
 .empty-state {
     text-align: center;
@@ -352,7 +364,7 @@ input:focus {
     border: 1px solid #21262d;
     flex: 1;
     overflow-y: auto;
-    min-height: 150px;
+    min-height: 200px; /* Ensure console is always visible */
 }
 .console-output .prefix { color: var(--accent-success); margin-right: 0.5rem; font-weight: bold; }
 #console-cmd { color: var(--text-primary); }
@@ -415,6 +427,6 @@ input:focus {
 .fs-file .fs-icon { color: var(--text-secondary); }
 .fs-children {
     padding-left: 1.5rem;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid #ffffff1a;
     margin-left: 0.5rem;
 }
